@@ -7,12 +7,103 @@
     tools:context="com.chuahamilton.conversioncalculator.MainActivity">
 
     <TextView
+        android:id="@+id/titleLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="16dp"
+        android:text="@string/length_converter"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/fromLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/from_label"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleLabel" />
+
+    <EditText
+        android:id="@+id/fromTextField"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_from_value"
+        app:layout_constraintStart_toStartOf="@id/fromLabel"
+        app:layout_constraintTop_toBottomOf="@id/fromLabel" />
+
+    <TextView
+        android:id="@+id/fromUnits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/yards"
+        app:layout_constraintBottom_toBottomOf="@id/fromTextField"
+        app:layout_constraintStart_toEndOf="@id/fromTextField"
+        app:layout_constraintTop_toTopOf="@id/fromTextField" />
+
+    <TextView
+        android:id="@+id/toLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/to_label"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fromTextField" />
+
+    <EditText
+        android:id="@+id/toTextField"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_to_value"
+        app:layout_constraintStart_toStartOf="@id/fromLabel"
+        app:layout_constraintTop_toBottomOf="@id/toLabel" />
+
+    <TextView
+        android:id="@+id/toUnits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/meters"
+        app:layout_constraintBottom_toBottomOf="@id/toTextField"
+        app:layout_constraintStart_toEndOf="@id/toTextField"
+        app:layout_constraintTop_toTopOf="@id/toTextField" />
+
+    <Button
+        android:id="@+id/calculateBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/calculate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toTextField"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"/>
+    
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/clearBtn"
+        android:text="@string/clear"
+        app:layout_constraintStart_toEndOf="@id/calculateBtn"
+        app:layout_constraintTop_toTopOf="@id/calculateBtn"
+        android:layout_marginStart="16dp"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/modeBtn"
+        android:text="@string/mode"
+        app:layout_constraintStart_toEndOf="@id/clearBtn"
+        app:layout_constraintTop_toTopOf="@id/clearBtn"
+        android:layout_marginStart="16dp"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
