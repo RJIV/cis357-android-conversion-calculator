@@ -11,6 +11,5 @@
     <string name="clear">Clear</string>
     <string name="mode">Mode</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="settingsTitle" formatted="false">%s Converter</string>
 </resources>

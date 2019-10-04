@@ -39,7 +39,10 @@ class ConversionHomeScreen : Fragment() {
         }
 
         modeBtn.setOnClickListener {
-
+            activity!!.supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, SettingsFragment())
+                .addToBackStack(null)
+                .commit()
         }
     }
 

@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fragmentContainer, ConversionHomeScreen())
+                .addToBackStack(null)
                 .commit()
         }
     }
