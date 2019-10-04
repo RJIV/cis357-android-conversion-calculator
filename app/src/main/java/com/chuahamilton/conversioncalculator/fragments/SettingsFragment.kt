@@ -15,6 +15,9 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+
+        activity!!.title = "Settings"
+
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
