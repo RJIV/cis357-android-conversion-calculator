@@ -12,4 +12,5 @@
     <string name="mode">Mode</string>
 
     <string name="settingsTitle" formatted="false">%s Converter</string>
+    <string name="settings">Settings</string>
 </resources>
