@@ -57,16 +57,18 @@ class ConversionHomeScreen : Fragment() {
     }
 
     private fun convertToField() {
+
         val convertedNumber = UnitsConverter.convert(
             toTextField.text.toString().toDouble(),
-            UnitsConverter.LengthUnits.Yards,
-            UnitsConverter.LengthUnits.Meters
+            UnitsConverter.LengthUnits.Meters,
+            UnitsConverter.LengthUnits.Yards
         )
 
         fromTextField.setText(convertedNumber.toString())
     }
 
     private fun convertFromField() {
+
         val convertedNumber = UnitsConverter.convert(
             fromTextField.text.toString().toDouble(),
             UnitsConverter.LengthUnits.Yards,
