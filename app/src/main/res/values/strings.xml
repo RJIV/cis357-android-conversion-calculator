@@ -13,4 +13,7 @@
 
     <string name="settingsTitle" formatted="false">%s Converter</string>
     <string name="settings">Settings</string>
+    <string name="volume_converter">Volume Converter</string>
+    <string name="gallons">Gallons</string>
+    <string name="liters">Liters</string>
 </resources>

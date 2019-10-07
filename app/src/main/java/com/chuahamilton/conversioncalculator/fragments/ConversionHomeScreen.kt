@@ -35,8 +35,8 @@ class ConversionHomeScreen : Fragment() {
     private fun initializeButtons() {
         calculateBtn.setOnClickListener {
 
-            when (conversionType){
-                "Length"->{
+            when (conversionType) {
+                "Length" -> {
                     // If a value is in the To-Field and not in the From-Field
                     if (fromTextField.text.isNullOrBlank() && !toTextField.text.isNullOrBlank()) {
                         convertLengthToField()
@@ -52,7 +52,7 @@ class ConversionHomeScreen : Fragment() {
                         convertLengthFromField()
                     }
                 }
-                "Volume"->{
+                "Volume" -> {
                     // If a value is in the To-Field and not in the From-Field
                     if (fromTextField.text.isNullOrBlank() && !toTextField.text.isNullOrBlank()) {
                         convertVolumeToField()
@@ -80,6 +80,18 @@ class ConversionHomeScreen : Fragment() {
 
         modeBtn.setOnClickListener {
 
+            if(conversionType == "Length"){
+                titleLabel.text = getString(R.string.volume_converter)
+                conversionType = "Volume"
+                fromUnits.text = getString(R.string.gallons)
+                toUnits.text = getString(R.string.liters)
+            }
+            else{
+                titleLabel.text = getString(R.string.length_converter)
+                conversionType = "Length"
+                fromUnits.text = getString(R.string.yards)
+                toUnits.text = getString(R.string.meters)
+            }
         }
     }
 
@@ -92,8 +104,6 @@ class ConversionHomeScreen : Fragment() {
             UnitsConverter.LengthUnits.valueOf(toLabel),
             UnitsConverter.LengthUnits.valueOf(fromLabel)
         )
-
-
 
         fromTextField.setText(convertedNumber.toString())
     }
