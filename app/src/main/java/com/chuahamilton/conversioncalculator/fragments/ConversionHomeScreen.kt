@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.chuahamilton.conversioncalculator.util.UnitsConverter
 import com.gvsu.hamilton.conversioncalculator.R
 import kotlinx.android.synthetic.main.fragment_conversion_home_screen.*
@@ -37,8 +38,14 @@ class ConversionHomeScreen : Fragment() {
 
             when (conversionType) {
                 "Length" -> {
+
+                    // Both fields are blank
+                    if (fromTextField.text.isNullOrBlank() && toTextField.text.isNullOrBlank()) {
+                        displayEmptyFieldError()
+                    }
+
                     // If a value is in the To-Field and not in the From-Field
-                    if (fromTextField.text.isNullOrBlank() && !toTextField.text.isNullOrBlank()) {
+                    else if (fromTextField.text.isNullOrBlank() && !toTextField.text.isNullOrBlank()) {
                         convertLengthToField()
                     }
 
@@ -53,8 +60,14 @@ class ConversionHomeScreen : Fragment() {
                     }
                 }
                 "Volume" -> {
+
+                    // Both fields are empty
+                    if (fromTextField.text.isNullOrBlank() && toTextField.text.isNullOrBlank()) {
+                        displayEmptyFieldError()
+                    }
+
                     // If a value is in the To-Field and not in the From-Field
-                    if (fromTextField.text.isNullOrBlank() && !toTextField.text.isNullOrBlank()) {
+                    else if (fromTextField.text.isNullOrBlank() && !toTextField.text.isNullOrBlank()) {
                         convertVolumeToField()
                     }
 
@@ -80,18 +93,27 @@ class ConversionHomeScreen : Fragment() {
 
         modeBtn.setOnClickListener {
 
-            if(conversionType == "Length"){
+            if (conversionType == "Length") {
                 titleLabel.text = getString(R.string.volume_converter)
                 conversionType = "Volume"
                 fromUnits.text = getString(R.string.gallons)
                 toUnits.text = getString(R.string.liters)
-            }
-            else{
+            } else {
                 titleLabel.text = getString(R.string.length_converter)
                 conversionType = "Length"
                 fromUnits.text = getString(R.string.yards)
                 toUnits.text = getString(R.string.meters)
             }
+        }
+    }
+
+    private fun displayEmptyFieldError(){
+        if (fromTextField.text.isNullOrBlank() && toTextField.text.isNullOrBlank()) {
+            Toast.makeText(
+                context!!,
+                "Please enter in a value to convert",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
