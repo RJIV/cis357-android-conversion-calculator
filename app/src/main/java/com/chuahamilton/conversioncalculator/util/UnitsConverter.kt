@@ -23,7 +23,7 @@ object UnitsConverter {
         Meters, Yards, Miles
     }
 
-    private class VolumeConversionKey internal constructor(
+    public class VolumeConversionKey internal constructor(
         internal var to: VolumeUnits,
         internal var from: VolumeUnits
     ) {

@@ -11,6 +11,8 @@ import kotlinx.android.synthetic.main.fragment_conversion_home_screen.*
 
 class ConversionHomeScreen : Fragment() {
 
+    private lateinit var conversionType: String
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -24,25 +26,50 @@ class ConversionHomeScreen : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        conversionType = "Length"
+
         initializeButtons()
     }
 
     private fun initializeButtons() {
         calculateBtn.setOnClickListener {
 
-            // If a value is in the To-Field and not in the From-Field
-            if (fromTextField.text.isNullOrBlank() && !toTextField.text.isNullOrBlank()) {
-                convertToField()
-            }
+            when (conversionType){
+                "Length"->{
+                    // If a value is in the To-Field and not in the From-Field
+                    if (fromTextField.text.isNullOrBlank() && !toTextField.text.isNullOrBlank()) {
+                        convertLengthToField()
+                    }
 
-            // If a value is in the From-Field and not in the To-Field
-            else if (!fromTextField.text.isNullOrBlank() && toTextField.text.isNullOrBlank()) {
-                convertFromField()
-            }
+                    // If a value is in the From-Field and not in the To-Field
+                    else if (!fromTextField.text.isNullOrBlank() && toTextField.text.isNullOrBlank()) {
+                        convertLengthFromField()
+                    }
 
-            // A value is in both the To-Field and the From-Field, the From-Field will be converted
-            else {
-                convertFromField()
+                    // A value is in both the To-Field and the From-Field, the From-Field will be converted
+                    else {
+                        convertLengthFromField()
+                    }
+                }
+                "Volume"->{
+                    // If a value is in the To-Field and not in the From-Field
+                    if (fromTextField.text.isNullOrBlank() && !toTextField.text.isNullOrBlank()) {
+                        convertVolumeToField()
+                    }
+
+                    // If a value is in the From-Field and not in the To-Field
+                    else if (!fromTextField.text.isNullOrBlank() && toTextField.text.isNullOrBlank()) {
+                        convertVolumeFromField()
+                    }
+
+                    // A value is in both the To-Field and the From-Field, the From-Field will be converted
+                    else {
+                        convertVolumeFromField()
+                    }
+                }
+
+
             }
         }
 
@@ -56,23 +83,59 @@ class ConversionHomeScreen : Fragment() {
         }
     }
 
-    private fun convertToField() {
+    private fun convertLengthToField() {
+        val fromLabel = fromUnits.text.toString()
+        val toLabel = toUnits.text.toString()
 
         val convertedNumber = UnitsConverter.convert(
             toTextField.text.toString().toDouble(),
-            UnitsConverter.LengthUnits.Meters,
-            UnitsConverter.LengthUnits.Yards
+            UnitsConverter.LengthUnits.valueOf(toLabel),
+            UnitsConverter.LengthUnits.valueOf(fromLabel)
         )
+
+
 
         fromTextField.setText(convertedNumber.toString())
     }
 
-    private fun convertFromField() {
+    private fun convertLengthFromField() {
+
+        val fromLabel = fromUnits.text.toString()
+        val toLabel = toUnits.text.toString()
 
         val convertedNumber = UnitsConverter.convert(
             fromTextField.text.toString().toDouble(),
-            UnitsConverter.LengthUnits.Yards,
-            UnitsConverter.LengthUnits.Meters
+            UnitsConverter.LengthUnits.valueOf(fromLabel),
+            UnitsConverter.LengthUnits.valueOf(toLabel)
+        )
+
+        toTextField.setText(convertedNumber.toString())
+    }
+
+    private fun convertVolumeToField() {
+        val fromLabel = fromUnits.text.toString()
+        val toLabel = toUnits.text.toString()
+
+        val convertedNumber = UnitsConverter.convert(
+            toTextField.text.toString().toDouble(),
+            UnitsConverter.VolumeUnits.valueOf(toLabel),
+            UnitsConverter.VolumeUnits.valueOf(fromLabel)
+        )
+
+
+
+        fromTextField.setText(convertedNumber.toString())
+    }
+
+    private fun convertVolumeFromField() {
+
+        val fromLabel = fromUnits.text.toString()
+        val toLabel = toUnits.text.toString()
+
+        val convertedNumber = UnitsConverter.convert(
+            fromTextField.text.toString().toDouble(),
+            UnitsConverter.VolumeUnits.valueOf(fromLabel),
+            UnitsConverter.VolumeUnits.valueOf(toLabel)
         )
 
         toTextField.setText(convertedNumber.toString())
