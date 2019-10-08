@@ -10,9 +10,12 @@ import com.chuahamilton.conversioncalculator.util.UnitsConverter
 import com.gvsu.hamilton.conversioncalculator.R
 import kotlinx.android.synthetic.main.fragment_conversion_home_screen.*
 
+
+
 class ConversionHomeScreen : Fragment() {
 
-    private lateinit var conversionType: String
+    lateinit var conversionType: String
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,6 +32,12 @@ class ConversionHomeScreen : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         conversionType = "Length"
+
+        if(arguments != null){
+            fromUnits.text = (arguments?.get("from") as? String)!!
+            toUnits.text = (arguments?.get("to") as? String)!!
+        }
+
 
         initializeButtons()
     }
@@ -153,8 +162,6 @@ class ConversionHomeScreen : Fragment() {
             UnitsConverter.VolumeUnits.valueOf(toLabel),
             UnitsConverter.VolumeUnits.valueOf(fromLabel)
         )
-
-
 
         fromTextField.setText(convertedNumber.toString())
     }
