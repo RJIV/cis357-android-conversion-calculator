@@ -9,8 +9,9 @@ import com.chuahamilton.conversioncalculator.fragments.SettingsFragment
 import com.gvsu.hamilton.conversioncalculator.R
 
 
-
 class MainActivity : AppCompatActivity() {
+
+    private var conversionType = "Length"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,11 +33,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        val bundle = Bundle()
+        bundle.putString("key", conversionType)
+        val settingsFragment = SettingsFragment()
+        settingsFragment.arguments = bundle
+
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.fragmentContainer, SettingsFragment())
+            .replace(R.id.fragmentContainer, settingsFragment)
             .addToBackStack(null)
             .commit()
         return super.onOptionsItemSelected(item)
+    }
+
+    fun updateConversionType(conversionType: String){
+        this.conversionType = conversionType
+    }
+
+    fun getConversionType(): String{
+        return conversionType
     }
 }

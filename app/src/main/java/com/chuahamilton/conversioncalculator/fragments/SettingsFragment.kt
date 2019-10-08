@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.os.bundleOf
 import com.gvsu.hamilton.conversioncalculator.R
@@ -15,14 +16,16 @@ import kotlinx.android.synthetic.main.fragment_settings.*
 
 class SettingsFragment : Fragment() {
 
-    private var conversionType = "Length"
+    private lateinit var conversionType: String
     private var fromUnit = "Yards"
     private var toUnit = "Meters"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        conversionType = "Length"
+        arguments?.getString("key", "Length")?.let {
+            conversionType = it
+        }
     }
 
     override fun onCreateView(
@@ -40,8 +43,7 @@ class SettingsFragment : Fragment() {
 
         populateSpinners(conversionType)
 
-        fromUnit = settingsFromSpinner.getItemAtPosition(0).toString()
-        toUnit = settingsToSpinner.getItemAtPosition(0).toString()
+        updateUnits()
 
         fabIcon.setOnClickListener {
             val conversionHomeScreen = ConversionHomeScreen()
@@ -87,5 +89,29 @@ class SettingsFragment : Fragment() {
                 settingsToSpinner.adapter = arrayAdapter
             }
         }
+    }
+
+    private fun updateUnits(){
+
+        settingsFromSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                fromUnit = settingsFromSpinner.selectedItem.toString()
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                fromUnit = settingsFromSpinner.selectedItem.toString()
+            }
+        }
+
+        settingsToSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                toUnit = settingsToSpinner.selectedItem.toString()
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                toUnit = settingsToSpinner.selectedItem.toString()
+            }
+        }
+
     }
 }

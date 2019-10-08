@@ -6,16 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.chuahamilton.conversioncalculator.MainActivity
 import com.chuahamilton.conversioncalculator.util.UnitsConverter
 import com.gvsu.hamilton.conversioncalculator.R
 import kotlinx.android.synthetic.main.fragment_conversion_home_screen.*
 
 
-
 class ConversionHomeScreen : Fragment() {
 
-    lateinit var conversionType: String
-
+    private lateinit var conversionType: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,9 +30,9 @@ class ConversionHomeScreen : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        conversionType = "Length"
+        conversionType = MainActivity().getConversionType()
 
-        if(arguments != null){
+        if (arguments != null) {
             fromUnits.text = (arguments?.get("from") as? String)!!
             toUnits.text = (arguments?.get("to") as? String)!!
         }
@@ -105,18 +104,20 @@ class ConversionHomeScreen : Fragment() {
             if (conversionType == "Length") {
                 titleLabel.text = getString(R.string.volume_converter)
                 conversionType = "Volume"
+                MainActivity().updateConversionType(conversionType)
                 fromUnits.text = getString(R.string.gallons)
                 toUnits.text = getString(R.string.liters)
             } else {
                 titleLabel.text = getString(R.string.length_converter)
                 conversionType = "Length"
+                MainActivity().updateConversionType(conversionType)
                 fromUnits.text = getString(R.string.yards)
                 toUnits.text = getString(R.string.meters)
             }
         }
     }
 
-    private fun displayEmptyFieldError(){
+    private fun displayEmptyFieldError() {
         if (fromTextField.text.isNullOrBlank() && toTextField.text.isNullOrBlank()) {
             Toast.makeText(
                 context!!,
