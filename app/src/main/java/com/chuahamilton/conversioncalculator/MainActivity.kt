@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.chuahamilton.conversioncalculator.fragments.ConversionHomeScreen
 import com.chuahamilton.conversioncalculator.fragments.SettingsFragment
 import com.gvsu.hamilton.conversioncalculator.R
@@ -12,6 +13,7 @@ import com.gvsu.hamilton.conversioncalculator.R
 class MainActivity : AppCompatActivity() {
 
     private var conversionType = "Length"
+    private var inSettingsFragment = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,11 +26,21 @@ class MainActivity : AppCompatActivity() {
                 .addToBackStack(null)
                 .commit()
         }
+
+    }
+
+    override fun onAttachFragment(fragment: Fragment) {
+        super.onAttachFragment(fragment)
+
+        if (fragment is SettingsFragment) {
+            inSettingsFragment = true
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.settings_menu, menu)
+
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -44,6 +56,9 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.fragmentContainer, settingsFragment)
             .addToBackStack(null)
             .commit()
+
+        inSettingsFragment = true
+
         return super.onOptionsItemSelected(item)
     }
 

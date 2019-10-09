@@ -1,11 +1,11 @@
 package com.chuahamilton.conversioncalculator.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.chuahamilton.conversioncalculator.MainActivity
 import com.chuahamilton.conversioncalculator.util.UnitsConverter
 import com.gvsu.hamilton.conversioncalculator.R
@@ -36,7 +36,6 @@ class ConversionHomeScreen : Fragment() {
             fromUnits.text = (arguments?.get("from") as? String)!!
             toUnits.text = (arguments?.get("to") as? String)!!
         }
-
 
         initializeButtons()
     }
