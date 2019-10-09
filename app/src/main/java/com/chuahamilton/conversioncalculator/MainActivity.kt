@@ -1,9 +1,9 @@
 package com.chuahamilton.conversioncalculator
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import com.chuahamilton.conversioncalculator.fragments.ConversionHomeScreen
 import com.chuahamilton.conversioncalculator.fragments.SettingsFragment
 import com.gvsu.hamilton.conversioncalculator.R
@@ -47,11 +47,11 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun updateConversionType(conversionType: String){
+    fun updateConversionType(conversionType: String) {
         this.conversionType = conversionType
     }
 
-    fun getConversionType(): String{
+    fun getConversionType(): String {
         return conversionType
     }
 }
