@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
 
     private var conversionType = "Length"
     private var inSettingsFragment = false
+    private lateinit var settingsMenu: Menu
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +41,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.settings_menu, menu)
+
+        settingsMenu = menu!!
+
+        settingsMenu.setGroupVisible(R.id.menu_settings, true)
 
         return super.onCreateOptionsMenu(menu)
     }
@@ -68,5 +73,9 @@ class MainActivity : AppCompatActivity() {
 
     fun getConversionType(): String {
         return conversionType
+    }
+
+    fun updateInSettingsFragment(inSettingsFragment: Boolean) {
+        this.inSettingsFragment = inSettingsFragment
     }
 }

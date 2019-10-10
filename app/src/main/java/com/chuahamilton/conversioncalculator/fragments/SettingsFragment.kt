@@ -2,9 +2,7 @@ package com.chuahamilton.conversioncalculator.fragments
 
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.os.bundleOf
@@ -30,6 +28,8 @@ class SettingsFragment : Fragment() {
         val mainActivity = this.activity as MainActivity
 
         conversionType = mainActivity.getConversionType()
+        mainActivity.invalidateOptionsMenu()
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -61,6 +61,9 @@ class SettingsFragment : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
+
+        val mainActivity = activity as MainActivity
+        mainActivity.updateInSettingsFragment(false)
     }
 
     private fun populateSpinners(conversion: String) {
@@ -144,5 +147,10 @@ class SettingsFragment : Fragment() {
             }
         }
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menu.setGroupVisible(R.id.menu_settings, false)
     }
 }
