@@ -14,6 +14,16 @@ import kotlinx.android.synthetic.main.fragment_settings.*
 
 class SettingsFragment : Fragment() {
 
+    private lateinit var callback: OnUnitsChangeListener
+
+    fun setOnSetChangeListener(callback: OnUnitsChangeListener) {
+        this.callback = callback
+    }
+
+    interface OnUnitsChangeListener {
+        fun onUnitsChange(fromUnit: String, toUnit: String)
+    }
+
     private lateinit var conversionType: String
     private var fromUnit = "Yards"
     private var toUnit = "Meters"
@@ -51,19 +61,8 @@ class SettingsFragment : Fragment() {
         updateUnits()
 
         fabIcon.setOnClickListener {
-            val conversionHomeScreen = ConversionHomeScreen()
-            val bundle = bundleOf(Pair("from", fromUnit), Pair("to", toUnit))
-            conversionHomeScreen.arguments = bundle
-
-            activity!!.supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragmentContainer, conversionHomeScreen)
-                .addToBackStack(null)
-                .commit()
+            callback.onUnitsChange(fromUnit, toUnit)
         }
-
-        val mainActivity = activity as MainActivity
-        mainActivity.updateInSettingsFragment(false)
     }
 
     private fun populateSpinners(conversion: String) {

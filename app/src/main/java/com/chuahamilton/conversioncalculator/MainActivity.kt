@@ -10,9 +10,32 @@ import com.chuahamilton.conversioncalculator.fragments.SettingsFragment
 import com.gvsu.hamilton.conversioncalculator.R
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListener, SettingsFragment.OnUnitsChangeListener {
+    override fun onUnitsChange(fromUnit: String, toUnit: String) {
+        this.fromUnit = fromUnit
+        this.toUnit = toUnit
+        val bundle = Bundle()
+        bundle.putString("conversionType", conversionType)
+        bundle.putString("fromUnit", fromUnit)
+        bundle.putString("toUnit", toUnit)
+        val conversionHomeScreen = ConversionHomeScreen()
+        conversionHomeScreen.arguments = bundle
+
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragmentContainer, conversionHomeScreen)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    override fun onModeChange(conversionType: String) {
+        updateConversionType(conversionType)
+    }
 
     private var conversionType = "Length"
+    private var fromUnit = "Meters"
+    private var toUnit = "Yards"
+
     private var inSettingsFragment = false
     private lateinit var settingsMenu: Menu
 
@@ -21,9 +44,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         if (savedInstanceState == null) {
+            val bundle = Bundle()
+            bundle.putString("conversionType", conversionType)
+            bundle.putString("fromUnit", fromUnit)
+            bundle.putString("toUnit", toUnit)
+            val conversionHomeScreen = ConversionHomeScreen()
+            conversionHomeScreen.arguments = bundle
+
             supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.fragmentContainer, ConversionHomeScreen())
+                .replace(R.id.fragmentContainer, conversionHomeScreen)
                 .addToBackStack(null)
                 .commit()
         }
@@ -33,7 +63,12 @@ class MainActivity : AppCompatActivity() {
     override fun onAttachFragment(fragment: Fragment) {
         super.onAttachFragment(fragment)
 
+        if (fragment is ConversionHomeScreen) {
+            fragment.setOnModeChangeListener(this)
+        }
+
         if (fragment is SettingsFragment) {
+            fragment.setOnSetChangeListener(this)
             inSettingsFragment = true
         }
     }

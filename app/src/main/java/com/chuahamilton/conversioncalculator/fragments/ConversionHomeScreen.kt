@@ -14,6 +14,16 @@ import kotlinx.android.synthetic.main.fragment_conversion_home_screen.*
 
 class ConversionHomeScreen : Fragment() {
 
+    private lateinit var callback: OnModeChangeListener
+
+    fun setOnModeChangeListener(callback: OnModeChangeListener) {
+        this.callback = callback
+    }
+
+    interface OnModeChangeListener {
+        fun onModeChange(conversionType: String)
+    }
+
     private lateinit var conversionType: String
 
     override fun onCreateView(
@@ -30,11 +40,15 @@ class ConversionHomeScreen : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        conversionType = MainActivity().getConversionType()
-
         if (arguments != null) {
-            fromUnits.text = (arguments?.get("from") as? String)!!
-            toUnits.text = (arguments?.get("to") as? String)!!
+            conversionType = (arguments?.get("conversionType") as? String)!!
+            if (conversionType == "Length") {
+                titleLabel.text = getString(R.string.length_converter)
+            } else {
+                titleLabel.text = getString(R.string.volume_converter)
+            }
+            fromUnits.text = (arguments?.get("fromUnit") as? String)!!
+            toUnits.text = (arguments?.get("toUnit") as? String)!!
         }
 
         initializeButtons()
@@ -101,16 +115,15 @@ class ConversionHomeScreen : Fragment() {
             if (conversionType == "Length") {
                 titleLabel.text = getString(R.string.volume_converter)
                 conversionType = "Volume"
-                MainActivity().updateConversionType(conversionType)
                 fromUnits.text = getString(R.string.gallons)
                 toUnits.text = getString(R.string.liters)
             } else {
                 titleLabel.text = getString(R.string.length_converter)
                 conversionType = "Length"
-                MainActivity().updateConversionType(conversionType)
                 fromUnits.text = getString(R.string.yards)
                 toUnits.text = getString(R.string.meters)
             }
+            callback.onModeChange(conversionType)
         }
     }
 
