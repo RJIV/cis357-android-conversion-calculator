@@ -12,8 +12,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name="com.chuahamilton.conversioncalculator.MainActivity"
-            android:screenOrientation="portrait">
+            android:name="com.chuahamilton.conversioncalculator.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

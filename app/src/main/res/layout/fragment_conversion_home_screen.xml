@@ -10,8 +10,9 @@
         android:id="@+id/titleLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/length_converter"
+        android:textAlignment="center"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,8 +23,7 @@
         android:id="@+id/fromLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_margin="8dp"
         android:text="@string/from_label"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,13 +31,16 @@
 
     <EditText
         android:id="@+id/fromTextField"
-        android:layout_width="200dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:hint="@string/enter_from_value"
+        android:imeOptions="actionDone"
         android:inputType="numberDecimal"
         android:lines="1"
-        android:imeOptions="actionDone"
-        app:layout_constraintStart_toStartOf="@id/fromLabel"
+        app:layout_constraintEnd_toStartOf="@+id/fromUnits"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fromLabel" />
 
     <TextView
@@ -45,17 +48,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/yards"
         app:layout_constraintBottom_toBottomOf="@id/fromTextField"
-        app:layout_constraintStart_toEndOf="@id/fromTextField"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toEndOf="@+id/fromTextField"
         app:layout_constraintTop_toTopOf="@id/fromTextField" />
 
     <TextView
         android:id="@+id/toLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_margin="8dp"
         android:text="@string/to_label"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,13 +69,16 @@
 
     <EditText
         android:id="@+id/toTextField"
-        android:layout_width="200dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:hint="@string/enter_to_value"
+        android:imeOptions="actionDone"
         android:inputType="numberDecimal"
         android:lines="1"
-        android:imeOptions="actionDone"
-        app:layout_constraintStart_toStartOf="@id/fromLabel"
+        app:layout_constraintEnd_toStartOf="@+id/toUnits"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toLabel" />
 
     <TextView
@@ -77,18 +86,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/meters"
         app:layout_constraintBottom_toBottomOf="@id/toTextField"
-        app:layout_constraintStart_toEndOf="@id/toTextField"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toEndOf="@+id/toTextField"
         app:layout_constraintTop_toTopOf="@id/toTextField" />
 
     <Button
         android:id="@+id/calculateBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/calculate"
+        app:layout_constraintEnd_toStartOf="@+id/clearBtn"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toTextField" />
 
@@ -96,18 +109,21 @@
         android:id="@+id/clearBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/clear"
-        app:layout_constraintStart_toEndOf="@id/calculateBtn"
+        app:layout_constraintEnd_toStartOf="@+id/modeBtn"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@+id/calculateBtn"
         app:layout_constraintTop_toTopOf="@id/calculateBtn" />
 
     <Button
         android:id="@+id/modeBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:text="@string/mode"
-        app:layout_constraintStart_toEndOf="@id/clearBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@+id/clearBtn"
         app:layout_constraintTop_toTopOf="@id/clearBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

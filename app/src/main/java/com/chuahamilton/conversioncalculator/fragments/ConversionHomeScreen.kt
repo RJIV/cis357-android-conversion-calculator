@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.chuahamilton.conversioncalculator.MainActivity
 import com.chuahamilton.conversioncalculator.util.UnitsConverter
 import com.gvsu.hamilton.conversioncalculator.R
 import kotlinx.android.synthetic.main.fragment_conversion_home_screen.*
