@@ -27,12 +27,20 @@ class SettingsFragment : Fragment() {
     private lateinit var conversionType: String
     private var fromUnit = "Yards"
     private var toUnit = "Meters"
+    private var fromSpinnerPosition = 0
+    private var toSpinnerPosition = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         arguments?.getString("key", "Length")?.let {
             conversionType = it
+        }
+        arguments?.getString("from", "Yards")?.let {
+            fromUnit = it
+        }
+        arguments?.getString("to", "Meters")?.let {
+            toUnit = it
         }
 
         val mainActivity = this.activity as MainActivity
@@ -57,7 +65,7 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         populateSpinners(conversionType)
-
+        updateDefaultSpinnerUnits()
         updateUnits()
 
         fabIcon.setOnClickListener {
@@ -114,6 +122,38 @@ class SettingsFragment : Fragment() {
         }
     }
 
+    private fun updateDefaultSpinnerUnits(){
+        if(conversionType == "Length"){
+            when(fromUnit){
+                "Meters" -> fromSpinnerPosition = 0
+                "Yards" -> fromSpinnerPosition = 1
+                "Miles" -> fromSpinnerPosition = 2
+            }
+
+            when(toUnit){
+                "Meters" -> toSpinnerPosition = 0
+                "Yards" -> toSpinnerPosition = 1
+                "Miles" -> toSpinnerPosition = 2
+            }
+        }
+        if(conversionType == "Volume"){
+            when(fromUnit){
+                "Liters" -> fromSpinnerPosition = 0
+                "Gallons" -> fromSpinnerPosition = 1
+                "Quarts" -> fromSpinnerPosition = 2
+            }
+
+            when(toUnit){
+                "Liters" -> toSpinnerPosition = 0
+                "Gallons" -> toSpinnerPosition = 1
+                "Quarts" -> toSpinnerPosition = 2
+            }
+        }
+
+        settingsFromSpinner.setSelection(fromSpinnerPosition)
+        settingsToSpinner.setSelection(toSpinnerPosition)
+    }
+
     private fun updateUnits() {
 
         settingsFromSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -145,7 +185,6 @@ class SettingsFragment : Fragment() {
                 toUnit = settingsToSpinner.selectedItem.toString()
             }
         }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

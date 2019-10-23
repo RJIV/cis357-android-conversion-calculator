@@ -20,7 +20,7 @@ class ConversionHomeScreen : Fragment() {
     }
 
     interface OnModeChangeListener {
-        fun onModeChange(conversionType: String)
+        fun onModeChange(conversionType: String, fromUnit: String, toUnit: String)
     }
 
     private lateinit var conversionType: String
@@ -40,7 +40,7 @@ class ConversionHomeScreen : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if (arguments != null) {
-            conversionType = (arguments?.get("conversionType") as? String)!!
+            conversionType = (arguments?.get("key") as? String)!!
             if (conversionType == "Length") {
                 titleLabel.text = getString(R.string.length_converter)
             } else {
@@ -122,7 +122,7 @@ class ConversionHomeScreen : Fragment() {
                 fromUnits.text = getString(R.string.yards)
                 toUnits.text = getString(R.string.meters)
             }
-            callback.onModeChange(conversionType)
+            callback.onModeChange(conversionType, fromUnits.text.toString(), toUnits.text.toString())
         }
     }
 

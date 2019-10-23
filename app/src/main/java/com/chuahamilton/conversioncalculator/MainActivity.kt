@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListe
         this.fromUnit = fromUnit
         this.toUnit = toUnit
         val bundle = Bundle()
-        bundle.putString("conversionType", conversionType)
+        bundle.putString("key", conversionType)
         bundle.putString("fromUnit", fromUnit)
         bundle.putString("toUnit", toUnit)
         val conversionHomeScreen = ConversionHomeScreen()
@@ -28,8 +28,8 @@ class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListe
             .commit()
     }
 
-    override fun onModeChange(conversionType: String) {
-        updateConversionType(conversionType)
+    override fun onModeChange(conversionType: String, fromUnit: String, toUnit: String) {
+        updateConversionType(conversionType, fromUnit, toUnit)
     }
 
     private var conversionType = "Length"
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListe
 
         if (savedInstanceState == null) {
             val bundle = Bundle()
-            bundle.putString("conversionType", conversionType)
+            bundle.putString("key", conversionType)
             bundle.putString("fromUnit", fromUnit)
             bundle.putString("toUnit", toUnit)
             val conversionHomeScreen = ConversionHomeScreen()
@@ -88,6 +88,8 @@ class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListe
 
         val bundle = Bundle()
         bundle.putString("key", conversionType)
+        bundle.putString("from", fromUnit)
+        bundle.putString("to", toUnit)
         val settingsFragment = SettingsFragment()
         settingsFragment.arguments = bundle
 
@@ -102,8 +104,10 @@ class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListe
         return super.onOptionsItemSelected(item)
     }
 
-    fun updateConversionType(conversionType: String) {
+    fun updateConversionType(conversionType: String, fromUnit: String, toUnit: String) {
         this.conversionType = conversionType
+        this.fromUnit = fromUnit
+        this.toUnit = toUnit
     }
 
     fun getConversionType(): String {
