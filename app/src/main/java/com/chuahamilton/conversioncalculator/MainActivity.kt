@@ -6,11 +6,13 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.chuahamilton.conversioncalculator.fragments.ConversionHomeScreen
+import com.chuahamilton.conversioncalculator.fragments.HistoryFragment
 import com.chuahamilton.conversioncalculator.fragments.SettingsFragment
 import com.gvsu.hamilton.conversioncalculator.R
 
 
-class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListener, SettingsFragment.OnUnitsChangeListener {
+class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListener,
+    SettingsFragment.OnUnitsChangeListener {
     override fun onUnitsChange(fromUnit: String, toUnit: String) {
         this.fromUnit = fromUnit
         this.toUnit = toUnit
@@ -37,7 +39,7 @@ class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListe
     private var toUnit = "Yards"
 
     private var inSettingsFragment = false
-    private lateinit var settingsMenu: Menu
+    private lateinit var mainMenu: Menu
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,11 +77,11 @@ class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListe
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
-        inflater.inflate(R.menu.settings_menu, menu)
+        inflater.inflate(R.menu.main_menu, menu)
 
-        settingsMenu = menu!!
+        mainMenu = menu!!
 
-        settingsMenu.setGroupVisible(R.id.menu_settings, true)
+        mainMenu.setGroupVisible(R.id.menu_settings, true)
 
         return super.onCreateOptionsMenu(menu)
     }
@@ -91,20 +93,37 @@ class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListe
         bundle.putString("from", fromUnit)
         bundle.putString("to", toUnit)
         val settingsFragment = SettingsFragment()
-        settingsFragment.arguments = bundle
+        val historyFragment = HistoryFragment()
 
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.fragmentContainer, settingsFragment)
-            .addToBackStack(null)
-            .commit()
+        if (item.toString() == "Settings") {
+            settingsFragment.arguments = bundle
 
-        inSettingsFragment = true
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragmentContainer, settingsFragment)
+                .addToBackStack(null)
+                .commit()
+
+            inSettingsFragment = true
+
+            return super.onOptionsItemSelected(item)
+
+        }
+
+        if(item.toString() == "History"){
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragmentContainer, historyFragment)
+                .addToBackStack(null)
+                .commit()
+
+            return super.onOptionsItemSelected(item)
+        }
 
         return super.onOptionsItemSelected(item)
     }
 
-    fun updateConversionType(conversionType: String, fromUnit: String, toUnit: String) {
+    private fun updateConversionType(conversionType: String, fromUnit: String, toUnit: String) {
         this.conversionType = conversionType
         this.fromUnit = fromUnit
         this.toUnit = toUnit

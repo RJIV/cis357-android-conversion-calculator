@@ -16,4 +16,6 @@
     <string name="volume_converter">Volume Converter</string>
     <string name="gallons">Gallons</string>
     <string name="liters">Liters</string>
+    <string name="history">History</string>
+
 </resources>

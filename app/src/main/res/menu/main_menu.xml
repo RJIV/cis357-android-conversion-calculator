@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group
-        android:id="@+id/menu_settings">
+    <group android:id="@+id/menu_settings">
         <item
             android:title="@string/settings"
+            android:visible="true" />
+    </group>
+
+    <group android:id="@+id/action_history">
+        <item
+            android:title="@string/history"
             android:visible="true" />
     </group>
 </menu>
