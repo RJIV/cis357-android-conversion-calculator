@@ -8,20 +8,24 @@ import androidx.fragment.app.Fragment
 import com.chuahamilton.conversioncalculator.fragments.ConversionHomeScreen
 import com.chuahamilton.conversioncalculator.fragments.HistoryFragment
 import com.chuahamilton.conversioncalculator.fragments.SettingsFragment
+import com.chuahamilton.conversioncalculator.fragments.dummy.HistoryContent
 import com.gvsu.hamilton.conversioncalculator.R
 
 
 class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListener,
-    SettingsFragment.OnUnitsChangeListener {
+    SettingsFragment.OnUnitsChangeListener, HistoryFragment.OnListFragmentInteractionListener {
+
+    var bundle = Bundle()
+
     override fun onUnitsChange(fromUnit: String, toUnit: String) {
         this.fromUnit = fromUnit
         this.toUnit = toUnit
-        val bundle = Bundle()
-        bundle.putString("key", conversionType)
-        bundle.putString("fromUnit", fromUnit)
-        bundle.putString("toUnit", toUnit)
+        this.bundle.putString("key", conversionType)
+        this.bundle.putString("fromUnit", fromUnit)
+        this.bundle.putString("toUnit", toUnit)
+        this.bundle.putBoolean("fromHistoryFragment", false)
         val conversionHomeScreen = ConversionHomeScreen()
-        conversionHomeScreen.arguments = bundle
+        conversionHomeScreen.arguments = this.bundle
 
         supportFragmentManager
             .beginTransaction()
@@ -46,12 +50,11 @@ class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListe
         setContentView(R.layout.activity_main)
 
         if (savedInstanceState == null) {
-            val bundle = Bundle()
-            bundle.putString("key", conversionType)
-            bundle.putString("fromUnit", fromUnit)
-            bundle.putString("toUnit", toUnit)
+            this.bundle.putString("key", conversionType)
+            this.bundle.putString("fromUnit", fromUnit)
+            this.bundle.putString("toUnit", toUnit)
             val conversionHomeScreen = ConversionHomeScreen()
-            conversionHomeScreen.arguments = bundle
+            conversionHomeScreen.arguments = this.bundle
 
             supportFragmentManager
                 .beginTransaction()
@@ -88,10 +91,9 @@ class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListe
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        val bundle = Bundle()
-        bundle.putString("key", conversionType)
-        bundle.putString("from", fromUnit)
-        bundle.putString("to", toUnit)
+        this.bundle.putString("key", conversionType)
+        this.bundle.putString("from", fromUnit)
+        this.bundle.putString("to", toUnit)
         val settingsFragment = SettingsFragment()
         val historyFragment = HistoryFragment()
 
@@ -110,7 +112,7 @@ class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListe
 
         }
 
-        if(item.toString() == "History"){
+        if (item.toString() == "History") {
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fragmentContainer, historyFragment)
@@ -133,7 +135,24 @@ class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListe
         return conversionType
     }
 
-    fun updateInSettingsFragment(inSettingsFragment: Boolean) {
-        this.inSettingsFragment = inSettingsFragment
+    @Override
+    override fun onListFragmentInteraction(item: HistoryContent.HistoryItem?) {
+        val vals = arrayOf(
+            item!!.fromVal.toString(),
+            item.toVal.toString(),
+            item.mode,
+            item.fromUnits,
+            item.toUnits
+        )
+
+        this.bundle.putStringArray("vals", vals)
+        this.bundle.putBoolean("fromHistoryFragment", true)
+        val conversionHomeScreen = ConversionHomeScreen()
+        conversionHomeScreen.arguments = this.bundle
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, conversionHomeScreen)
+            .addToBackStack(null)
+            .commit()
     }
 }

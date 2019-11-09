@@ -2,26 +2,23 @@ package com.chuahamilton.conversioncalculator.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import com.chuahamilton.conversioncalculator.fragments.dummy.HistoryContent
+import com.chuahamilton.conversioncalculator.fragments.dummy.HistoryContent.HistoryItem
 import com.gvsu.hamilton.conversioncalculator.R
+import androidx.recyclerview.widget.DividerItemDecoration
 
-import com.chuahamilton.conversioncalculator.fragments.dummy.DummyContent
-import com.chuahamilton.conversioncalculator.fragments.dummy.DummyContent.DummyItem
 
-/**
- * A fragment representing a list of Items.
- * Activities containing this fragment MUST implement the
- * [HistoryFragment.OnListFragmentInteractionListener] interface.
- */
+
+
 class HistoryFragment : Fragment() {
 
-    // TODO: Customize parameters
     private var columnCount = 1
 
     private var listener: OnListFragmentInteractionListener? = null
@@ -34,13 +31,18 @@ class HistoryFragment : Fragment() {
 
         // Set the adapter
         if (view is RecyclerView) {
-            with(view) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
-                }
-                adapter = HistoryAdapter(DummyContent.ITEMS, listener)
+            val context = view.getContext()
+            if (columnCount <= 1) {
+                view.layoutManager = LinearLayoutManager(context)
+            } else {
+                view.layoutManager = GridLayoutManager(context, columnCount)
             }
+            view.adapter = HistoryAdapter(HistoryContent.ITEMS, listener)
+            val did = DividerItemDecoration(
+                view.context,
+                DividerItemDecoration.VERTICAL
+            )
+            view.addItemDecoration(did)
         }
         return view
     }
@@ -50,7 +52,7 @@ class HistoryFragment : Fragment() {
         if (context is OnListFragmentInteractionListener) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement OnListFragmentInteractionListener")
+            throw RuntimeException("$context must implement OnListFragmentInteractionListener")
         }
     }
 
@@ -59,20 +61,9 @@ class HistoryFragment : Fragment() {
         listener = null
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson
-     * [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html)
-     * for more information.
-     */
+
     interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        fun onListFragmentInteraction(item: DummyItem?)
+        fun onListFragmentInteraction(item: HistoryItem?)
     }
 
 }

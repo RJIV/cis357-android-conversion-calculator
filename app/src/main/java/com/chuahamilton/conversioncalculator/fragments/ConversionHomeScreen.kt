@@ -1,14 +1,19 @@
 package com.chuahamilton.conversioncalculator.fragments
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.chuahamilton.conversioncalculator.fragments.dummy.HistoryContent
 import com.chuahamilton.conversioncalculator.util.UnitsConverter
 import com.gvsu.hamilton.conversioncalculator.R
 import kotlinx.android.synthetic.main.fragment_conversion_home_screen.*
+import org.joda.time.DateTime
 
 
 class ConversionHomeScreen : Fragment() {
@@ -36,6 +41,7 @@ class ConversionHomeScreen : Fragment() {
         return inflater.inflate(R.layout.fragment_conversion_home_screen, container, false)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -48,6 +54,16 @@ class ConversionHomeScreen : Fragment() {
             }
             fromUnits.text = (arguments?.get("fromUnit") as? String)!!
             toUnits.text = (arguments?.get("toUnit") as? String)!!
+
+            if(arguments?.get("fromHistoryFragment") == true){
+                val historyValues = arguments?.get("vals") as Array<*>
+
+                fromTextField.setText(historyValues[0].toString())
+                toTextField.setText(historyValues[1].toString())
+                titleLabel.text = historyValues[2].toString() + " Converter"
+                fromUnits.text = historyValues[3].toString()
+                toUnits.text = historyValues[4].toString()
+            }
         }
 
         initializeButtons()
@@ -55,6 +71,8 @@ class ConversionHomeScreen : Fragment() {
 
     private fun initializeButtons() {
         calculateBtn.setOnClickListener {
+
+            removePhoneKeypad()
 
             when (conversionType) {
                 "Length" -> {
@@ -67,16 +85,19 @@ class ConversionHomeScreen : Fragment() {
                     // If a value is in the To-Field and not in the From-Field
                     else if (fromTextField.text.isNullOrBlank() && !toTextField.text.isNullOrBlank()) {
                         convertLengthToField()
+                        createHistoryItem()
                     }
 
                     // If a value is in the From-Field and not in the To-Field
                     else if (!fromTextField.text.isNullOrBlank() && toTextField.text.isNullOrBlank()) {
                         convertLengthFromField()
+                        createHistoryItem()
                     }
 
                     // A value is in both the To-Field and the From-Field, the From-Field will be converted
                     else {
                         convertLengthFromField()
+                        createHistoryItem()
                     }
                 }
                 "Volume" -> {
@@ -89,16 +110,19 @@ class ConversionHomeScreen : Fragment() {
                     // If a value is in the To-Field and not in the From-Field
                     else if (fromTextField.text.isNullOrBlank() && !toTextField.text.isNullOrBlank()) {
                         convertVolumeToField()
+                        createHistoryItem()
                     }
 
                     // If a value is in the From-Field and not in the To-Field
                     else if (!fromTextField.text.isNullOrBlank() && toTextField.text.isNullOrBlank()) {
                         convertVolumeFromField()
+                        createHistoryItem()
                     }
 
                     // A value is in both the To-Field and the From-Field, the From-Field will be converted
                     else {
                         convertVolumeFromField()
+                        createHistoryItem()
                     }
                 }
             }
@@ -122,7 +146,11 @@ class ConversionHomeScreen : Fragment() {
                 fromUnits.text = getString(R.string.yards)
                 toUnits.text = getString(R.string.meters)
             }
-            callback.onModeChange(conversionType, fromUnits.text.toString(), toUnits.text.toString())
+            callback.onModeChange(
+                conversionType,
+                fromUnits.text.toString(),
+                toUnits.text.toString()
+            )
         }
     }
 
@@ -188,6 +216,30 @@ class ConversionHomeScreen : Fragment() {
         )
 
         toTextField.setText(convertedNumber.toString())
+    }
+
+    private fun removePhoneKeypad() {
+        val inputManager = view!!
+            .context
+            .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+        val binder = view!!.windowToken
+        inputManager.hideSoftInputFromWindow(
+            binder,
+            InputMethodManager.HIDE_NOT_ALWAYS
+        )
+    }
+
+    private fun createHistoryItem() {
+        val item = HistoryContent.HistoryItem(
+            fromTextField.text.toString().toDouble(),
+            toTextField.text.toString().toDouble(),
+            conversionType,
+            toUnits.text.toString(),
+            fromUnits.text.toString(),
+            DateTime.now()
+        )
+        HistoryContent.addItem(item)
     }
 
 }
