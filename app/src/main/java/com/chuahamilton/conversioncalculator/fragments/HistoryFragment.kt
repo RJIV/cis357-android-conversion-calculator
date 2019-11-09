@@ -6,15 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chuahamilton.conversioncalculator.fragments.dummy.HistoryContent
 import com.chuahamilton.conversioncalculator.fragments.dummy.HistoryContent.HistoryItem
 import com.gvsu.hamilton.conversioncalculator.R
-import androidx.recyclerview.widget.DividerItemDecoration
-
-
 
 
 class HistoryFragment : Fragment() {

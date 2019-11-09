@@ -55,7 +55,7 @@ class ConversionHomeScreen : Fragment() {
             fromUnits.text = (arguments?.get("fromUnit") as? String)!!
             toUnits.text = (arguments?.get("toUnit") as? String)!!
 
-            if(arguments?.get("fromHistoryFragment") == true){
+            if (arguments?.get("fromHistoryFragment") == true) {
                 val historyValues = arguments?.get("vals") as Array<*>
 
                 fromTextField.setText(historyValues[0].toString())

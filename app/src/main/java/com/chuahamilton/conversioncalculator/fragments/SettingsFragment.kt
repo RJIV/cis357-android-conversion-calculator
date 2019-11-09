@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.chuahamilton.conversioncalculator.MainActivity
 import com.gvsu.hamilton.conversioncalculator.R
@@ -122,28 +121,28 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    private fun updateDefaultSpinnerUnits(){
-        if(conversionType == "Length"){
-            when(fromUnit){
+    private fun updateDefaultSpinnerUnits() {
+        if (conversionType == "Length") {
+            when (fromUnit) {
                 "Meters" -> fromSpinnerPosition = 0
                 "Yards" -> fromSpinnerPosition = 1
                 "Miles" -> fromSpinnerPosition = 2
             }
 
-            when(toUnit){
+            when (toUnit) {
                 "Meters" -> toSpinnerPosition = 0
                 "Yards" -> toSpinnerPosition = 1
                 "Miles" -> toSpinnerPosition = 2
             }
         }
-        if(conversionType == "Volume"){
-            when(fromUnit){
+        if (conversionType == "Volume") {
+            when (fromUnit) {
                 "Liters" -> fromSpinnerPosition = 0
                 "Gallons" -> fromSpinnerPosition = 1
                 "Quarts" -> fromSpinnerPosition = 2
             }
 
-            when(toUnit){
+            when (toUnit) {
                 "Liters" -> toSpinnerPosition = 0
                 "Gallons" -> toSpinnerPosition = 1
                 "Quarts" -> toSpinnerPosition = 2

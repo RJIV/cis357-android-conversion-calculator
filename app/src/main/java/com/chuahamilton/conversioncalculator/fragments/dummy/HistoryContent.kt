@@ -5,7 +5,7 @@ import java.util.*
 
 
 object HistoryContent {
-    val ITEMS: MutableList<HistoryItem> = ArrayList()
+    val ITEMS: ArrayList<HistoryItem> = ArrayList()
 
     fun addItem(item: HistoryItem) {
         ITEMS.add(item)
