@@ -17,8 +17,21 @@ object HistoryContent {
         val mode: String,
         val fromUnits: String,
         val toUnits: String,
-        val timestamp: DateTime
+        val timestamp: DateTime,
+        val timestampString: String,
+        val key: String
     ) {
+        constructor() :
+                this(
+                    fromVal = 0.0,
+                    toVal = 0.0,
+                    mode = "Length",
+                    fromUnits = "Meters",
+                    toUnits = "Yards",
+                    timestamp = DateTime.now(),
+                    timestampString = "01/01/2019",
+                    key = "key"
+                )
 
         @Override
         override fun toString(): String {

@@ -9,41 +9,25 @@ import com.chuahamilton.conversioncalculator.fragments.ConversionHomeScreen
 import com.chuahamilton.conversioncalculator.fragments.HistoryFragment
 import com.chuahamilton.conversioncalculator.fragments.SettingsFragment
 import com.chuahamilton.conversioncalculator.fragments.dummy.HistoryContent
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.gvsu.hamilton.conversioncalculator.R
+
+
 
 
 class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListener,
     SettingsFragment.OnUnitsChangeListener, HistoryFragment.OnListFragmentInteractionListener {
 
-    var bundle = Bundle()
-
-    override fun onUnitsChange(fromUnit: String, toUnit: String) {
-        this.fromUnit = fromUnit
-        this.toUnit = toUnit
-        this.bundle.putString("key", conversionType)
-        this.bundle.putString("fromUnit", fromUnit)
-        this.bundle.putString("toUnit", toUnit)
-        this.bundle.putBoolean("fromHistoryFragment", false)
-        val conversionHomeScreen = ConversionHomeScreen()
-        conversionHomeScreen.arguments = this.bundle
-
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.fragmentContainer, conversionHomeScreen)
-            .addToBackStack(null)
-            .commit()
-    }
-
-    override fun onModeChange(conversionType: String, fromUnit: String, toUnit: String) {
-        updateConversionType(conversionType, fromUnit, toUnit)
-    }
-
+    private var bundle = Bundle()
     private var conversionType = "Length"
     private var fromUnit = "Meters"
     private var toUnit = "Yards"
-
     private var inSettingsFragment = false
     private lateinit var mainMenu: Menu
+    private lateinit var topRef: DatabaseReference
+
+    var allHistory: List<HistoryContent.HistoryItem>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +47,11 @@ class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListe
                 .commit()
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        topRef = FirebaseDatabase.getInstance().getReference("History")
     }
 
     override fun onAttachFragment(fragment: Fragment) {
@@ -154,5 +143,26 @@ class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListe
             .replace(R.id.fragmentContainer, conversionHomeScreen)
             .addToBackStack(null)
             .commit()
+    }
+
+    override fun onUnitsChange(fromUnit: String, toUnit: String) {
+        this.fromUnit = fromUnit
+        this.toUnit = toUnit
+        this.bundle.putString("key", conversionType)
+        this.bundle.putString("fromUnit", fromUnit)
+        this.bundle.putString("toUnit", toUnit)
+        this.bundle.putBoolean("fromHistoryFragment", false)
+        val conversionHomeScreen = ConversionHomeScreen()
+        conversionHomeScreen.arguments = this.bundle
+
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragmentContainer, conversionHomeScreen)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    override fun onModeChange(conversionType: String, fromUnit: String, toUnit: String) {
+        updateConversionType(conversionType, fromUnit, toUnit)
     }
 }

@@ -56,6 +56,7 @@ class HistoryAdapter(
         return ViewHolder(view)
     }
 
+    @Suppress("DEPRECATION")
     @Override
     override fun onBindItemViewHolder(holder: ViewHolder, section: Int, position: Int) {
         holder.mItem = this.dayValues[this.sectionHeaders[section]]!![position]
@@ -133,10 +134,10 @@ class HistoryAdapter(
     companion object {
         init {
             val now = DateTime.now()
-            addItem(HistoryItem(2.0, 1.829, "Length", "Yards", "Meters", now.minusDays(1)))
-            addItem(HistoryItem(1.0, 3.785, "Volume", "Gallons", "Liters", now.minusDays(1)))
-            addItem(HistoryItem(2.0, 1.829, "Length", "Yards", "Meters", now.plusDays(1)))
-            addItem(HistoryItem(1.0, 3.785, "Volume", "Gallons", "Liters", now.plusDays(1)))
+            addItem(HistoryItem(2.0, 1.829, "Length", "Yards", "Meters", now.minusDays(1), now.minusDays(1).toString(), "test1"))
+            addItem(HistoryItem(1.0, 3.785, "Volume", "Gallons", "Liters", now.minusDays(1), now.minusDays(1).toString(), "test2"))
+            addItem(HistoryItem(2.0, 1.829, "Length", "Yards", "Meters", now.minusDays(1), now.plusDays(1).toString(), "test3"))
+            addItem(HistoryItem(1.0, 3.785, "Volume", "Gallons", "Liters", now.minusDays(1), now.plusDays(1).toString(), "test4"))
         }
     }
 }

@@ -237,9 +237,10 @@ class ConversionHomeScreen : Fragment() {
             conversionType,
             toUnits.text.toString(),
             fromUnits.text.toString(),
-            DateTime.now()
+            DateTime.now(),
+            DateTime.now().toString(),
+            "key"
         )
         HistoryContent.addItem(item)
     }
-
 }

@@ -8,7 +8,7 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
-        applicationId "com.gvsu.hamilton.conversioncalculator"
+        applicationId 'com.chuahamilton.conversioncalculator'
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
@@ -38,8 +38,15 @@ dependencies {
     implementation 'net.danlew:android.joda:2.10.3'
     implementation 'com.truizlop.sectionedrecyclerview:library:1.2.0'
 
+    // Google Firebase
+    implementation 'com.google.firebase:firebase-analytics:17.2.1'
+    implementation 'com.google.firebase:firebase-database:19.2.0'
+    implementation 'com.google.firebase:firebase-core:17.2.1'
+
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
+
+apply plugin: 'com.google.gms.google-services'
