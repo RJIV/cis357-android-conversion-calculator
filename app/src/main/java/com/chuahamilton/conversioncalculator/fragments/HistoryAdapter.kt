@@ -111,11 +111,8 @@ class HistoryAdapter(
     }
 
     inner class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var header: TextView
+        var header: TextView = view.findViewById(R.id.header) as TextView
 
-        init {
-            header = view.findViewById(R.id.header) as TextView
-        }
     }
 
     inner class FooterViewHolder(view: View) : RecyclerView.ViewHolder(view)
@@ -134,10 +131,54 @@ class HistoryAdapter(
     companion object {
         init {
             val now = DateTime.now()
-            addItem(HistoryItem(2.0, 1.829, "Length", "Yards", "Meters", now.minusDays(1), now.minusDays(1).toString(), "test1"))
-            addItem(HistoryItem(1.0, 3.785, "Volume", "Gallons", "Liters", now.minusDays(1), now.minusDays(1).toString(), "test2"))
-            addItem(HistoryItem(2.0, 1.829, "Length", "Yards", "Meters", now.minusDays(1), now.plusDays(1).toString(), "test3"))
-            addItem(HistoryItem(1.0, 3.785, "Volume", "Gallons", "Liters", now.minusDays(1), now.plusDays(1).toString(), "test4"))
+            addItem(
+                HistoryItem(
+                    2.0,
+                    1.829,
+                    "Length",
+                    "Yards",
+                    "Meters",
+                    now.minusDays(1),
+                    now.minusDays(1).toString(),
+                    "test1"
+                )
+            )
+            addItem(
+                HistoryItem(
+                    1.0,
+                    3.785,
+                    "Volume",
+                    "Gallons",
+                    "Liters",
+                    now.minusDays(1),
+                    now.minusDays(1).toString(),
+                    "test2"
+                )
+            )
+            addItem(
+                HistoryItem(
+                    2.0,
+                    1.829,
+                    "Length",
+                    "Yards",
+                    "Meters",
+                    now.minusDays(1),
+                    now.plusDays(1).toString(),
+                    "test3"
+                )
+            )
+            addItem(
+                HistoryItem(
+                    1.0,
+                    3.785,
+                    "Volume",
+                    "Gallons",
+                    "Liters",
+                    now.minusDays(1),
+                    now.plusDays(1).toString(),
+                    "test4"
+                )
+            )
         }
     }
 }

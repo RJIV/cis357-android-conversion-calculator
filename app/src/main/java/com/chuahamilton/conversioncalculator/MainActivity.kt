@@ -14,8 +14,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.gvsu.hamilton.conversioncalculator.R
 
 
-
-
 class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListener,
     SettingsFragment.OnUnitsChangeListener, HistoryFragment.OnListFragmentInteractionListener {
 
@@ -32,6 +30,8 @@ class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListe
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        allHistory = ArrayList()
 
         if (savedInstanceState == null) {
             this.bundle.putString("key", conversionType)
