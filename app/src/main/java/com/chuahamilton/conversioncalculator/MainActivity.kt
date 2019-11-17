@@ -9,12 +9,11 @@ import com.chuahamilton.conversioncalculator.fragments.ConversionHomeScreen
 import com.chuahamilton.conversioncalculator.fragments.HistoryFragment
 import com.chuahamilton.conversioncalculator.fragments.SettingsFragment
 import com.chuahamilton.conversioncalculator.fragments.dummy.HistoryContent
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import com.gvsu.hamilton.conversioncalculator.R
 
 
 class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListener,
+    ConversionHomeScreen.OnAllHistoryChangeListener,
     SettingsFragment.OnUnitsChangeListener, HistoryFragment.OnListFragmentInteractionListener {
 
     private var bundle = Bundle()
@@ -23,15 +22,11 @@ class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListe
     private var toUnit = "Yards"
     private var inSettingsFragment = false
     private lateinit var mainMenu: Menu
-    private lateinit var topRef: DatabaseReference
-
-    var allHistory: List<HistoryContent.HistoryItem>? = null
+    private lateinit var allHistory: ArrayList<HistoryContent.HistoryItem>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        allHistory = ArrayList()
 
         if (savedInstanceState == null) {
             this.bundle.putString("key", conversionType)
@@ -46,12 +41,6 @@ class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListe
                 .addToBackStack(null)
                 .commit()
         }
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        topRef = FirebaseDatabase.getInstance().getReference("History")
     }
 
     override fun onAttachFragment(fragment: Fragment) {
@@ -59,6 +48,7 @@ class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListe
 
         if (fragment is ConversionHomeScreen) {
             fragment.setOnModeChangeListener(this)
+            fragment.setAllHistoryChangeListener(this)
         }
 
         if (fragment is SettingsFragment) {
@@ -83,6 +73,7 @@ class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListe
         this.bundle.putString("key", conversionType)
         this.bundle.putString("from", fromUnit)
         this.bundle.putString("to", toUnit)
+        this.bundle.putSerializable("allHistory", allHistory)
         val settingsFragment = SettingsFragment()
         val historyFragment = HistoryFragment()
 
@@ -102,6 +93,7 @@ class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListe
         }
 
         if (item.toString() == "History") {
+            historyFragment.arguments = bundle
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fragmentContainer, historyFragment)
@@ -165,4 +157,13 @@ class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListe
     override fun onModeChange(conversionType: String, fromUnit: String, toUnit: String) {
         updateConversionType(conversionType, fromUnit, toUnit)
     }
+
+    override fun onAllHistoryChange(allHistory: ArrayList<HistoryContent.HistoryItem>) {
+        this.allHistory = allHistory
+    }
+
+    fun sendAllHistory(): ArrayList<HistoryContent.HistoryItem> {
+        return allHistory
+    }
+
 }

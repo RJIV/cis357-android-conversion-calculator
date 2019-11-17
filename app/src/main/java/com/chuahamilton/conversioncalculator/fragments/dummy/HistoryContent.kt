@@ -1,15 +1,17 @@
 package com.chuahamilton.conversioncalculator.fragments.dummy
 
 import org.joda.time.DateTime
+import java.io.Serializable
 import java.util.*
 
 
-object HistoryContent {
+object HistoryContent : Serializable {
     val ITEMS: ArrayList<HistoryItem> = ArrayList()
 
     fun addItem(item: HistoryItem) {
         ITEMS.add(item)
     }
+
 
     data class HistoryItem(
         val fromVal: Double?,
@@ -19,7 +21,7 @@ object HistoryContent {
         val toUnits: String,
         val timestamp: DateTime,
         val timestampString: String,
-        val key: String
+        var key: String
     ) {
         constructor() :
                 this(

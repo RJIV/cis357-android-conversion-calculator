@@ -31,8 +31,9 @@ class HistoryAdapter(
         val fmt = DateTimeFormat.forPattern("yyyy-MM-dd")
 
         for (historyItems in items) {
-            val key = "Entries for " + fmt.print(historyItems.timestamp)
-            var list: java.util.ArrayList<HistoryItem>? = this.dayValues[key]
+            val dateTime = DateTime.parse(historyItems.timestampString)
+            val key = "Entries for " + fmt.print(dateTime)
+            var list: ArrayList<HistoryItem>? = this.dayValues[key]
             if (list == null) {
                 list = java.util.ArrayList()
                 this.dayValues[key] = list

@@ -11,24 +11,20 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.chuahamilton.conversioncalculator.fragments.dummy.HistoryContent
 import com.chuahamilton.conversioncalculator.util.UnitsConverter
+import com.google.firebase.database.*
 import com.gvsu.hamilton.conversioncalculator.R
 import kotlinx.android.synthetic.main.fragment_conversion_home_screen.*
 import org.joda.time.DateTime
+import org.joda.time.format.ISODateTimeFormat
 
 
 class ConversionHomeScreen : Fragment() {
 
-    private lateinit var callback: OnModeChangeListener
-
-    fun setOnModeChangeListener(callback: OnModeChangeListener) {
-        this.callback = callback
-    }
-
-    interface OnModeChangeListener {
-        fun onModeChange(conversionType: String, fromUnit: String, toUnit: String)
-    }
-
+    private lateinit var modeChangeCallback: OnModeChangeListener
+    private lateinit var allHistoryCallback: OnAllHistoryChangeListener
     private lateinit var conversionType: String
+    private lateinit var topRef: DatabaseReference
+    private var allHistory: ArrayList<HistoryContent.HistoryItem>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,6 +63,18 @@ class ConversionHomeScreen : Fragment() {
         }
 
         initializeButtons()
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        topRef = FirebaseDatabase.getInstance().getReference("History")
+        topRef.addChildEventListener(chEvListener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        topRef.removeEventListener(chEvListener)
     }
 
     private fun initializeButtons() {
@@ -146,7 +154,7 @@ class ConversionHomeScreen : Fragment() {
                 fromUnits.text = getString(R.string.yards)
                 toUnits.text = getString(R.string.meters)
             }
-            callback.onModeChange(
+            modeChangeCallback.onModeChange(
                 conversionType,
                 fromUnits.text.toString(),
                 toUnits.text.toString()
@@ -231,6 +239,7 @@ class ConversionHomeScreen : Fragment() {
     }
 
     private fun createHistoryItem() {
+        val format = ISODateTimeFormat.dateTime()
         val item = HistoryContent.HistoryItem(
             fromTextField.text.toString().toDouble(),
             toTextField.text.toString().toDouble(),
@@ -238,9 +247,57 @@ class ConversionHomeScreen : Fragment() {
             toUnits.text.toString(),
             fromUnits.text.toString(),
             DateTime.now(),
-            DateTime.now().toString(),
+            format.print(DateTime.now()),
             "key"
         )
         HistoryContent.addItem(item)
+        topRef.push().setValue(item)
     }
+
+    fun setOnModeChangeListener(callback: OnModeChangeListener) {
+        this.modeChangeCallback = callback
+    }
+
+    interface OnModeChangeListener {
+        fun onModeChange(conversionType: String, fromUnit: String, toUnit: String)
+    }
+
+
+    fun setAllHistoryChangeListener(callback: OnAllHistoryChangeListener) {
+        this.allHistoryCallback = callback
+    }
+
+    interface OnAllHistoryChangeListener {
+        fun onAllHistoryChange(allHistory: ArrayList<HistoryContent.HistoryItem>)
+    }
+
+    private val chEvListener = object : ChildEventListener {
+        override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
+            val entry = dataSnapshot.getValue(HistoryContent.HistoryItem::class.java)
+            entry!!.key = dataSnapshot.key!!
+            allHistory!!.add(entry)
+        }
+
+        override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {}
+
+        override fun onChildRemoved(dataSnapshot: DataSnapshot) {
+            val entry = dataSnapshot.getValue(HistoryContent.HistoryItem::class.java)
+            val newHistory = ArrayList<HistoryContent.HistoryItem>()
+            for (t in allHistory!!) {
+                if (t.key != dataSnapshot.key) {
+                    newHistory.add(t)
+                }
+            }
+            allHistory = newHistory
+        }
+
+        override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {
+
+        }
+
+        override fun onCancelled(databaseError: DatabaseError) {
+
+        }
+    }
+
 }
