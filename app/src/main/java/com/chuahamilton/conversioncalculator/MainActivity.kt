@@ -10,6 +10,7 @@ import com.chuahamilton.conversioncalculator.fragments.HistoryFragment
 import com.chuahamilton.conversioncalculator.fragments.SettingsFragment
 import com.chuahamilton.conversioncalculator.fragments.dummy.HistoryContent
 import com.gvsu.hamilton.conversioncalculator.R
+import java.io.Serializable
 
 
 class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListener,
@@ -73,7 +74,7 @@ class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListe
         this.bundle.putString("key", conversionType)
         this.bundle.putString("from", fromUnit)
         this.bundle.putString("to", toUnit)
-        this.bundle.putSerializable("allHistory", allHistory)
+        this.bundle.putSerializable("allHistory", allHistory as Serializable)
         val settingsFragment = SettingsFragment()
         val historyFragment = HistoryFragment()
 
@@ -160,10 +161,6 @@ class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListe
 
     override fun onAllHistoryChange(allHistory: ArrayList<HistoryContent.HistoryItem>) {
         this.allHistory = allHistory
-    }
-
-    fun sendAllHistory(): ArrayList<HistoryContent.HistoryItem> {
-        return allHistory
     }
 
 }

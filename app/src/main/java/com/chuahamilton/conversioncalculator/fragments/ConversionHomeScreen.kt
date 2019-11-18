@@ -68,6 +68,7 @@ class ConversionHomeScreen : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        allHistory!!.clear()
         topRef = FirebaseDatabase.getInstance().getReference("History")
         topRef.addChildEventListener(chEvListener)
     }
