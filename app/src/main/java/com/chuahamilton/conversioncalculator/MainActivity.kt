@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListe
     private var toUnit = "Yards"
     private var inSettingsFragment = false
     private lateinit var mainMenu: Menu
-    private lateinit var allHistory: ArrayList<HistoryContent.HistoryItem>
+    private var allHistory: ArrayList<HistoryContent.HistoryItem> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -126,6 +126,8 @@ class MainActivity : AppCompatActivity(), ConversionHomeScreen.OnModeChangeListe
             item.fromUnits,
             item.toUnits
         )
+
+        this.bundle.putString("key", item.mode)
 
         this.bundle.putStringArray("vals", vals)
         this.bundle.putBoolean("fromHistoryFragment", true)

@@ -18,7 +18,7 @@ class HistoryFragment : Fragment() {
 
     private var columnCount = 1
     private var listener: OnListFragmentInteractionListener? = null
-    private var allHistory: ArrayList<HistoryItem>? = null
+    private var allHistory: ArrayList<HistoryItem>? = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

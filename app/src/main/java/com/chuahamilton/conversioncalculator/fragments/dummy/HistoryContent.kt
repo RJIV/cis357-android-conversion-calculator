@@ -14,27 +14,15 @@ object HistoryContent : Serializable {
 
 
     data class HistoryItem(
-        val fromVal: Double?,
-        val toVal: Double?,
-        val mode: String,
-        val fromUnits: String,
-        val toUnits: String,
-        val timestamp: DateTime,
-        val timestampString: String,
-        var key: String
+        val fromVal: Double? = 0.0,
+        val toVal: Double? = 0.0,
+        val mode: String = "Length",
+        val fromUnits: String = "Meters",
+        val toUnits: String = "Yards",
+        val timestamp: String = DateTime.now().toString(),
+        val timestampString: String = "01/01/2019",
+        var key: String = "key"
     ) {
-        constructor() :
-                this(
-                    fromVal = 0.0,
-                    toVal = 0.0,
-                    mode = "Length",
-                    fromUnits = "Meters",
-                    toUnits = "Yards",
-                    timestamp = DateTime.now(),
-                    timestampString = "01/01/2019",
-                    key = "key"
-                )
-
         @Override
         override fun toString(): String {
             return this.fromVal.toString() + " " + this.fromUnits + " = " + this.toVal + " " + this.toUnits

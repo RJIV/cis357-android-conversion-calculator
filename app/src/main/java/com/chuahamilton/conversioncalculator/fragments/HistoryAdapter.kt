@@ -139,7 +139,7 @@ class HistoryAdapter(
                     "Length",
                     "Yards",
                     "Meters",
-                    now.minusDays(1),
+                    now.minusDays(1).toString(),
                     now.minusDays(1).toString(),
                     "test1"
                 )
@@ -151,7 +151,7 @@ class HistoryAdapter(
                     "Volume",
                     "Gallons",
                     "Liters",
-                    now.minusDays(1),
+                    now.minusDays(1).toString(),
                     now.minusDays(1).toString(),
                     "test2"
                 )
@@ -163,7 +163,7 @@ class HistoryAdapter(
                     "Length",
                     "Yards",
                     "Meters",
-                    now.minusDays(1),
+                    now.minusDays(1).toString(),
                     now.plusDays(1).toString(),
                     "test3"
                 )
@@ -175,7 +175,7 @@ class HistoryAdapter(
                     "Volume",
                     "Gallons",
                     "Liters",
-                    now.minusDays(1),
+                    now.minusDays(1).toString(),
                     now.plusDays(1).toString(),
                     "test4"
                 )

@@ -24,7 +24,7 @@ class ConversionHomeScreen : Fragment() {
     private lateinit var allHistoryCallback: OnAllHistoryChangeListener
     private lateinit var conversionType: String
     private lateinit var topRef: DatabaseReference
-    private var allHistory: ArrayList<HistoryContent.HistoryItem>? = null
+    private var allHistory: ArrayList<HistoryContent.HistoryItem> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -247,7 +247,7 @@ class ConversionHomeScreen : Fragment() {
             conversionType,
             toUnits.text.toString(),
             fromUnits.text.toString(),
-            DateTime.now(),
+            DateTime.now().toString(),
             format.print(DateTime.now()),
             "key"
         )
@@ -277,6 +277,7 @@ class ConversionHomeScreen : Fragment() {
             val entry = dataSnapshot.getValue(HistoryContent.HistoryItem::class.java)
             entry!!.key = dataSnapshot.key!!
             allHistory!!.add(entry)
+            allHistoryCallback.onAllHistoryChange(allHistory)
         }
 
         override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {}
@@ -290,6 +291,7 @@ class ConversionHomeScreen : Fragment() {
                 }
             }
             allHistory = newHistory
+            allHistoryCallback.onAllHistoryChange(allHistory)
         }
 
         override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {
