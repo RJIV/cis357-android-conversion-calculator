@@ -41,6 +41,8 @@ class ConversionHomeScreen : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        weatherGroup.visibility = View.GONE
+
         if (arguments != null) {
             conversionType = (arguments?.get("key") as? String)!!
             if (conversionType == "Length") {
@@ -68,7 +70,7 @@ class ConversionHomeScreen : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        allHistory!!.clear()
+        allHistory.clear()
         topRef = FirebaseDatabase.getInstance().getReference("History")
         topRef.addChildEventListener(chEvListener)
     }
@@ -82,6 +84,7 @@ class ConversionHomeScreen : Fragment() {
         calculateBtn.setOnClickListener {
 
             removePhoneKeypad()
+            displayWeather()
 
             when (conversionType) {
                 "Length" -> {
@@ -301,6 +304,10 @@ class ConversionHomeScreen : Fragment() {
         override fun onCancelled(databaseError: DatabaseError) {
 
         }
+    }
+
+    private fun displayWeather(){
+        weatherGroup.visibility = View.VISIBLE
     }
 
 }
