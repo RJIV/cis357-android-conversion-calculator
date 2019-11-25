@@ -7,7 +7,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import com.chuahamilton.conversioncalculator.MainActivity
-import com.gvsu.hamilton.conversioncalculator.R
+import com.chuahamilton.conversioncalculator.R
 import kotlinx.android.synthetic.main.fragment_settings.*
 
 

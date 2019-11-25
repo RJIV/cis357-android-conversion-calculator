@@ -9,7 +9,6 @@ import com.chuahamilton.conversioncalculator.fragments.ConversionHomeScreen
 import com.chuahamilton.conversioncalculator.fragments.HistoryFragment
 import com.chuahamilton.conversioncalculator.fragments.SettingsFragment
 import com.chuahamilton.conversioncalculator.fragments.dummy.HistoryContent
-import com.gvsu.hamilton.conversioncalculator.R
 import java.io.Serializable
 
 

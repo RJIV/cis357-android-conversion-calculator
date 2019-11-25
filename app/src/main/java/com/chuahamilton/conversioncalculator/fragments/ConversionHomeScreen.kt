@@ -1,7 +1,10 @@
 package com.chuahamilton.conversioncalculator.fragments
 
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,13 +12,16 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.chuahamilton.conversioncalculator.fragments.dummy.HistoryContent
+import com.chuahamilton.conversioncalculator.services.WeatherService
 import com.chuahamilton.conversioncalculator.util.UnitsConverter
 import com.google.firebase.database.*
-import com.gvsu.hamilton.conversioncalculator.R
 import kotlinx.android.synthetic.main.fragment_conversion_home_screen.*
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
+import com.chuahamilton.conversioncalculator.R
+import com.chuahamilton.conversioncalculator.services.WeatherService.Companion.BROADCAST_WEATHER
 
 
 class ConversionHomeScreen : Fragment() {
@@ -25,6 +31,28 @@ class ConversionHomeScreen : Fragment() {
     private lateinit var conversionType: String
     private lateinit var topRef: DatabaseReference
     private var allHistory: ArrayList<HistoryContent.HistoryItem> = ArrayList()
+
+    private val weatherReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val bundle = intent.extras
+            val temp = bundle!!.getDouble("TEMP")
+            val summary = bundle.getString("CONDITION")
+            val icon = bundle.getString("ICON")!!.replace("-".toRegex(), "_")
+            val key = bundle.getString("KEY")
+            val resID = resources.getIdentifier(icon, "drawable", context.packageName)
+            if (key == "p1") {
+                currentWeatherText.text = summary
+                temperatureText.text = temp.toString()
+                weatherIcon.setImageResource(resID)
+            }
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val intent = Intent(context!!, WeatherService::class.java)
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,6 +93,7 @@ class ConversionHomeScreen : Fragment() {
         }
 
         initializeButtons()
+        WeatherService.startGetWeather(context!!, "42.963686", "-85.888595", "p1")
     }
 
 
@@ -73,18 +102,20 @@ class ConversionHomeScreen : Fragment() {
         allHistory.clear()
         topRef = FirebaseDatabase.getInstance().getReference("History")
         topRef.addChildEventListener(chEvListener)
+        val weatherFilter = IntentFilter(BROADCAST_WEATHER)
+        LocalBroadcastManager.getInstance(context!!).registerReceiver(weatherReceiver, weatherFilter)
     }
 
     override fun onPause() {
         super.onPause()
         topRef.removeEventListener(chEvListener)
+        LocalBroadcastManager.getInstance(context!!).unregisterReceiver(weatherReceiver)
     }
 
     private fun initializeButtons() {
         calculateBtn.setOnClickListener {
 
             removePhoneKeypad()
-            displayWeather()
 
             when (conversionType) {
                 "Length" -> {
@@ -138,6 +169,8 @@ class ConversionHomeScreen : Fragment() {
                     }
                 }
             }
+
+            displayWeather()
         }
 
         clearBtn.setOnClickListener {
@@ -279,7 +312,7 @@ class ConversionHomeScreen : Fragment() {
         override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
             val entry = dataSnapshot.getValue(HistoryContent.HistoryItem::class.java)
             entry!!.key = dataSnapshot.key!!
-            allHistory!!.add(entry)
+            allHistory.add(entry)
             allHistoryCallback.onAllHistoryChange(allHistory)
         }
 
@@ -288,7 +321,7 @@ class ConversionHomeScreen : Fragment() {
         override fun onChildRemoved(dataSnapshot: DataSnapshot) {
             val entry = dataSnapshot.getValue(HistoryContent.HistoryItem::class.java)
             val newHistory = ArrayList<HistoryContent.HistoryItem>()
-            for (t in allHistory!!) {
+            for (t in allHistory) {
                 if (t.key != dataSnapshot.key) {
                     newHistory.add(t)
                 }
@@ -306,7 +339,7 @@ class ConversionHomeScreen : Fragment() {
         }
     }
 
-    private fun displayWeather(){
+    private fun displayWeather() {
         weatherGroup.visibility = View.VISIBLE
     }
 

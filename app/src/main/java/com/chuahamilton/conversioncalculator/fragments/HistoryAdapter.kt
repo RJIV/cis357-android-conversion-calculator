@@ -10,7 +10,7 @@ import com.chuahamilton.conversioncalculator.fragments.HistoryAdapter.FooterView
 import com.chuahamilton.conversioncalculator.fragments.HistoryFragment.OnListFragmentInteractionListener
 import com.chuahamilton.conversioncalculator.fragments.dummy.HistoryContent.HistoryItem
 import com.chuahamilton.conversioncalculator.fragments.dummy.HistoryContent.addItem
-import com.gvsu.hamilton.conversioncalculator.R
+import com.chuahamilton.conversioncalculator.R
 import com.truizlop.sectionedrecyclerview.SectionedRecyclerViewAdapter
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat

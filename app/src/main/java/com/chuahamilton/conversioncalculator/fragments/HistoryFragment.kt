@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chuahamilton.conversioncalculator.fragments.dummy.HistoryContent.HistoryItem
-import com.gvsu.hamilton.conversioncalculator.R
+import com.chuahamilton.conversioncalculator.R
 
 
 class HistoryFragment : Fragment() {
